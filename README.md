@@ -4,7 +4,7 @@ tsbox: Class-Agnostic Time Series in R
 [![Build Status](https://travis-ci.org/christophsax/tsbox.svg?branch=master)](https://travis-ci.org/christophsax/tsbox)
 [![Build status](https://ci.appveyor.com/api/projects/status/xp7tropxe2dkdxoc?svg=true)](https://ci.appveyor.com/project/christophsax/tsbox)
 [![codecov](https://codecov.io/github/christophsax/tsbox/branch/master/graphs/badge.svg)](https://codecov.io/github/christophsax/tsbox)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/tsbox)](https://cran.r-project.org/package=tsbox)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/tsbox)](https://cran.r-project.org/package=tsbox)
 
 The R ecosystem knows a [vast
 number](https://CRAN.R-project.org/view=TimeSeries)  of time series
@@ -30,17 +30,20 @@ remotes::install_github("christophsax/tsbox")
 
 tsbox is built around a set of converters, which convert time series stored as
 **ts**, **xts**, **data.frame**, **data.table**, **tibble**, **zoo**, 
-**tsibble** or **timeSeries** to each other:
+**tsibble**,  **tibbletime** or **timeSeries** to each other:
 
 ```r
 library(tsbox)
-x.ts <- ts_c(mdeaths, fdeaths)
+x.ts <- ts_c(fdeaths, mdeaths)
 x.xts <- ts_xts(x.ts)
 x.df <- ts_df(x.xts)
-x.tbl <- ts_tbl(x.df)
+x.dt <- ts_df(x.df)
+x.tbl <- ts_tbl(x.dt)
 x.zoo <- ts_zoo(x.tbl)
 x.tsibble <- ts_tsibble(x.zoo)
-x.timeSeries <- ts_timeSeries(x.tsibble)
+x.tibbletime <- ts_tibbletime(x.tsibble)
+x.timeSeries <- ts_timeSeries(x.tibbletime)
+all.equal(ts_ts(x.timeSeries), x.ts)  # TRUE
 ```
 
 ### Use same functions for time series classes
