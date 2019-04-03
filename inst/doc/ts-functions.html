@@ -219,7 +219,7 @@ ts_rowsums(ts_c(mdeaths, fdeaths))
 <p>Note that <code>ts_</code> returns a function, which can be with or without a name. Let&#39; have a closer look at how <code>ts_rowsums</code> looks like:</p>
 
 <pre><code class="r">ts_rowsums
-#&gt; function (x, ...) 
+#&gt; function (x, ...)
 #&gt; {
 #&gt;     stopifnot(ts_boxable(x))
 #&gt;     z &lt;- rowSums(ts_ts(x), ...)
@@ -233,6 +233,12 @@ ts_rowsums(ts_c(mdeaths, fdeaths))
 perform the main operation on the object (here: <code>rowSums</code>). Finally they convert
 the result back to the original class, using <code>copy_class</code>.</p>
 
+<p>The resulting function has a <code>...</code> argument. You can use it to pass
+arguments to the underlying functions. E.g.,</p>
+
+<pre><code class="r">ts_rowsums(ts_c(mdeaths, fdeaths), na.rm = TRUE)
+</code></pre>
+
 <h2>Functions from external packages</h2>
 
 <p>Here is a slightly more complex example, which uses a post processing function:</p>
@@ -245,16 +251,16 @@ ts_prcomp(ts_c(mdeaths, fdeaths))
 into <code>ts_</code>.</p>
 
 <pre><code class="r">ts_dygraphs &lt;- ts_(dygraphs::dygraph, class = &quot;xts&quot;)
-ts_forecast &lt;- ts_(function(x) forecast::forecast(x)$mean, vectorize = TRUE)
-ts_seas &lt;- ts_(function(x) seasonal::final(seasonal::seas(x)), vectorize = TRUE)
+ts_forecast &lt;- ts_(function(x, ...) forecast::forecast(x, ...)$mean, vectorize = TRUE)
+ts_seas &lt;- ts_(function(x, ...) seasonal::final(seasonal::seas(x, ...)), vectorize = TRUE)
 
 ts_dygraphs(ts_c(mdeaths, EuStockMarkets))
 ts_forecast(ts_c(mdeaths, fdeaths))
 ts_seas(ts_c(mdeaths, fdeaths))
 </code></pre>
 
-<p>If you are explicit about the namespace (e.g., <code>dygraphs::dygraph</code>), 
-<code>ts_</code> recognized the package in use and delivers a meaningful message if the 
+<p>If you are explicit about the namespace (e.g., <code>dygraphs::dygraph</code>),
+<code>ts_</code> recognized the package in use and delivers a meaningful message if the
 package is not installed.</p>
 
 <p>Note that the <code>ts_</code> function deals with the conversion stuff, &#39;vectorizes&#39; the
@@ -263,25 +269,25 @@ function so that it can be used with multiple time series.</p>
 <p>Let&#39; have another look at <code>ts_forecast</code>:</p>
 
 <pre><code class="r">ts_forecast
-#&gt; function (x, ...) 
+#&gt; function (x, ...)
 #&gt; {
 #&gt;     load_suggested(&quot;forecast&quot;)
 #&gt;     ff &lt;- function(x, ...) {
 #&gt;         stopifnot(ts_boxable(x))
-#&gt;         z &lt;- (function(x) forecast::forecast(x)$mean)(ts_ts(x), 
-#&gt;             ...)
+#&gt;         z &lt;- (function(x, ...) forecast::forecast(ts_na_omit(x),
+#&gt;             ...)$mean)(ts_ts(x), ...)
 #&gt;         copy_class(z, x)
 #&gt;     }
 #&gt;     ts_apply(x, ff, ...)
 #&gt; }
 </code></pre>
 
-<p>There three main differences here: First, the function requires the forecast
-package. If it is not installed, <code>load_suggested</code> will ask the user to do so.
-Second, the function in use is an anonymous function, <code>function(x)
-forecast::forecast(x)$mean</code>, that also extracts the <code>mean</code> from the result.
-Third, the function is &#39;vectorized&#39;, using <code>ts_apply</code>. This causes the process
-to be repeated for each time series in the object.</p>
+<p>There three differences to the <code>ts_rowsum</code> example: First, the function requires
+the forecast package. If it is not installed, <code>load_suggested</code> will ask the user
+to do so. Second, the function in use is an anonymous function, <code>function(x)
+forecast::forecast(x, ...)$mean</code>, that also extracts the <code>$mean</code> component from
+the result. Third, the function is &#39;vectorized&#39;, using <code>ts_apply</code>. This causes
+the process to be repeated for each time series in the object.</p>
 
 </body>
 

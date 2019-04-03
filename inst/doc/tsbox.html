@@ -232,15 +232,15 @@ remotes::install_github(&quot;christophsax/tsbox&quot;)
 
 <h2>Convert everything to everything</h2>
 
-<p>tsbox can convert time series stored as <strong>ts</strong>, <strong>xts</strong>, <strong>data.frame</strong>, <strong>data.table</strong>, <strong>tibble</strong>, <strong>zoo</strong>, 
-<strong>tsibble</strong>,  <strong>tibbletime</strong> or <strong>timeSeries</strong> to each 
+<p>tsbox can convert time series stored as <strong>ts</strong>, <strong>xts</strong>, <strong>data.frame</strong>, <strong>data.table</strong>, <strong>tibble</strong>, <strong>zoo</strong>,
+<strong>tsibble</strong>,  <strong>tibbletime</strong> or <strong>timeSeries</strong> to each
 other:</p>
 
 <pre><code class="r">library(tsbox)
 x.ts &lt;- ts_c(fdeaths, mdeaths)
 x.xts &lt;- ts_xts(x.ts)
 x.df &lt;- ts_df(x.xts)
-x.dt &lt;- ts_df(x.df)
+x.dt &lt;- ts_dt(x.df)
 x.tbl &lt;- ts_tbl(x.dt)
 x.zoo &lt;- ts_zoo(x.tbl)
 x.tsibble &lt;- ts_tsibble(x.zoo)
@@ -262,7 +262,7 @@ time series. Because <code>ts_scale</code> normalizes time series, it is useful 
 different time series comparable. All of the following operations perform the
 same task, but return the same object class as the input:</p>
 
-<pre><code class="r">ts_scale(x.ts)           
+<pre><code class="r">ts_scale(x.ts)
 ts_scale(x.xts)
 ts_scale(x.df)
 ts_scale(x.dt)
@@ -335,8 +335,8 @@ frequency:</p>
 <p>If you want to use different names than the object names, just name the arguments (and optionally set a title):</p>
 
 <pre><code class="r">ts_plot(
-  `Airline Passengers` = AirPassengers, 
-  `Lynx trappings` = ts_df(lynx), 
+  `Airline Passengers` = AirPassengers,
+  `Lynx trappings` = ts_df(lynx),
   `Deaths from Lung Diseases` = ts_xts(fdeaths),
   title = &quot;Airlines, trappings, and deaths&quot;,
   subtitle = &quot;Monthly passengers, annual trappings, monthly deaths&quot;
@@ -351,6 +351,12 @@ With <code>theme_tsbox()</code> and <code>scale_color_tsbox()</code>, the output
 very similar to <code>ts_plot</code>.</p>
 
 <pre><code class="r">ts_ggplot(ts_scale(ts_c(mdeaths, austres, AirPassengers, DAX = EuStockMarkets[ ,&#39;DAX&#39;])))
+</code></pre>
+
+<p>Finally, <code>ts_summary</code> returns a data frame with frequently used time series
+properties:</p>
+
+<pre><code class="r">ts_summary(ts_c(mdeaths, austres, AirPassengers))
 </code></pre>
 
 <h2>Time series in data frames</h2>
@@ -372,7 +378,7 @@ used as <strong>value column</strong>.</p></li>
 <li><p>Using the remaining columns, and starting on the right again, the first
 <code>Date</code>, <code>POSIXct</code>, <code>numeric</code> or <code>character</code> column is used as <strong>time column</strong>.
 <code>character</code> strings are parsed by <code>anytime::anytime()</code>.
-The time stamp, <code>time</code>, indicates the beginning of a period. </p></li>
+The time stamp, <code>time</code>, indicates the beginning of a period.</p></li>
 <li><p><strong>All remaining</strong> columns are <strong>id columns</strong>. Each unique combination of id
 columns points to a time series.</p></li>
 </ol>
@@ -388,13 +394,13 @@ into a dplyr workflow:</p>
 
 <pre><code class="r">library(dplyr)
 library(nycflights13)
-dta &lt;- weather %&gt;% 
-  select(origin, time = time_hour, temp, humid, precip) %&gt;% 
-  ts_long() 
+dta &lt;- weather %&gt;%
+  select(origin, time = time_hour, temp, humid, precip) %&gt;%
+  ts_long()
 
-dta %&gt;% 
-  filter(id == &quot;temp&quot;) %&gt;% 
-  ts_trend() %&gt;% 
+dta %&gt;%
+  filter(id == &quot;temp&quot;) %&gt;%
+  ts_trend() %&gt;%
   ts_plot()
 
 </code></pre>

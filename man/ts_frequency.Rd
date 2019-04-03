@@ -26,15 +26,14 @@ Changes the frequency of a time series. By default, incomplete
 periods of regular series are omitted.
 }
 \examples{
-ts_frequency(cbind(mdeaths, fdeaths), "year", "sum")
+\donttest{
 ts_frequency(cbind(mdeaths, fdeaths), "year", "sum")
 ts_frequency(cbind(mdeaths, fdeaths), "quarter", "last")
 
 ts_frequency(AirPassengers, 4, "sum")
-ts_frequency(AirPassengers, 1, "sum")
 
 # Note that incomplete years are omited by default
 ts_frequency(EuStockMarkets, "year")
 ts_frequency(EuStockMarkets, "year", na.rm = TRUE)
-
+}
 }

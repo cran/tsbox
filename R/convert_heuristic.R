@@ -11,24 +11,40 @@ ts_to_date_time <- function(x) {
   first.subperiod <- tsp(x)[1] %% 1
   fr <- frequency(x)
 
-  division <- first.subperiod / (1 / fr)
-  if (abs(division - round(division)) > 1e-3) {
-    stop(
-      "subperiod is not dividable by frequency\n\n",
-      "If you encounter this rare rounding issue, many thanks for ",
-      "reporting a reproducible example on:",
-      "\n\n    https://github.com/christophsax/tsbox\n",
-      call. = FALSE
-    )
-  }
+  # we did not allow an offset, but this is wrong. offset is common, e.g., for weekly data.
+  # division <- first.subperiod / (1 / fr)
+  # offset <- division - round(division)
+  # stopifnot(abs(offset) < 1e-3)
 
   md <- .mapdiff[freq == fr]
+
 
   # non heuristic conversion for non-heuristics
   if (nrow(md) == 0 ) {
     z <- ts_to_POSIXct(x)
 
   # heuristic high freq > 12
+  } else if (md$freq == 365.2425) {
+    # to improve accuracy for daily data, treat them separately
+    # (also seedate_time_to_tsp)
+
+    start.ts <- tsp(x)[1]
+    start.year <- floor(start.ts)
+    sq.ts <- ts(integer(10), start = start.ts, frequency = 365.2425)
+    sq.ts.ext <- window(sq.ts, start = floor(start(sq.ts)), extend = TRUE)
+    first.obs <- which(!is.na(sq.ts.ext))[1]
+
+    start.time <- as.Date(paste0(floor(floor(start.ts)), "-01-01"))
+    end.time <- as.Date(paste0(floor(floor(start.ts) + 1), "-01-01"))
+    sq.time <- seq(start.time, end.time, by = "1 day")
+    start <- sq.time[first.obs]
+
+    z <- seq(
+      from = start,
+      by = "1 day",
+      length.out = length(x)
+    )
+
   } else if (md$freq > 12) {
 
     stopifnot(inherits(x, "ts"))
@@ -36,6 +52,11 @@ ts_to_date_time <- function(x) {
     start <- dectime_to_POSIXct(tsp(x)[1])
 
     start <- round(start, "secs")
+
+    # daily data should be stored as Date
+    if (identical(md$string, "1 day")) {
+      start <- as.Date(start)
+    }
 
     z <- seq(
       from = start,
@@ -89,22 +110,16 @@ date_time_to_tsp <- function(x, frequency = NULL) {
     if (frequency == 4) start <- c(y, ((m - 1) / 3) + 1)
     if (frequency == 12) start <- c(y, m)
     if (d != 1) {
-      stop("time column needs to specified as the first date of the period", call. = FALSE)
+      stop(
+        "time column needs to specified as the first date of the period",
+        call. = FALSE
+      )
     }
     z <- tsp(ts(x, frequency = frequency, start = start)) # a bit inefficient
-  } else {
-
-    # this should be able to deal with Date and POSIXct.
+  } else if (frequency == 365.2425){
+    # to improve accuracy for daily data, do not use non heuristic conversion
 
     md <- .mapdiff[freq == frequency]
-    if (ncol(md) == 0) stop("cannot deal with frequency: ", frequency)
-
-    # non heuristic converson for high frequencies
-    # heuristic converison is slow
-    if (md$freq > 500){
-      return(POSIXct_to_tsp(as.POSIXct(x)))
-    }
-
     str <- md$str
 
     start.time <- date_year(x[1])
@@ -116,8 +131,12 @@ date_time_to_tsp <- function(x, frequency = NULL) {
     sq.ts <- ts(sq.time, frequency = frequency, start = data.table::year(x[1]))
     start <- time(sq.ts)[sq.ts >= as.integer(x[1])][1]
 
-
     z <- tsp(ts(x, start = start, frequency = frequency))
+  } else {
+
+    # non heuristic converson
+    md <- .mapdiff[freq == frequency]
+    z <- tsp(ts(0, start = POSIXct_to_dectime(as.POSIXct(x[1])), frequency = frequency))
   }
   z
 }

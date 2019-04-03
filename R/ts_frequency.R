@@ -8,23 +8,22 @@
 #'  `"quarter"`, `"month"`) or an integer (`1`, `4`, `12`).
 #' @param aggregate character string, or function. Either `"mean"`, `"sum"`,
 #'  `"first"`, or `"last"`, or any aggregate function, such as [base::mean()].
-#'  
+#'
 #' @param na.rm logical, if `TRUE`, incomplete periods are aggregated as
 #'   well. For irregular series, incomplete periods are always aggregated.
 #'
 #' @return a ts-boxable time series, with the same class as the input.
 #' @examples
-#' ts_frequency(cbind(mdeaths, fdeaths), "year", "sum")
+#' \donttest{
 #' ts_frequency(cbind(mdeaths, fdeaths), "year", "sum")
 #' ts_frequency(cbind(mdeaths, fdeaths), "quarter", "last")
 #'
 #' ts_frequency(AirPassengers, 4, "sum")
-#' ts_frequency(AirPassengers, 1, "sum")
 #'
 #' # Note that incomplete years are omited by default
 #' ts_frequency(EuStockMarkets, "year")
 #' ts_frequency(EuStockMarkets, "year", na.rm = TRUE)
-#'
+#' }
 #' @export
 ts_frequency <- function(x, to = "year", aggregate = "mean", na.rm = FALSE) {
   stopifnot(ts_boxable(x))
@@ -52,7 +51,7 @@ frequency_core <- function(x, to, aggregate, na.rm) {
     } else {
       x <- ts_bind(NA, try.x, NA)
     }
-    
+
   }
 
   if (is.character(aggregate)) {

@@ -2,13 +2,9 @@
 % Please edit documentation in R/ts_ggplot.R
 \name{ts_ggplot}
 \alias{ts_ggplot}
-\alias{ts_ggplot}
 \alias{theme_tsbox}
-\alias{ts_ggplot}
 \alias{colors_tsbox}
-\alias{ts_ggplot}
 \alias{scale_color_tsbox}
-\alias{ts_ggplot}
 \alias{scale_fill_tsbox}
 \title{Plot Time Series, Using ggplot2}
 \usage{
@@ -39,7 +35,7 @@ passed to subfunctions.}
 }
 \description{
 \code{ts_ggplot()} has the same syntax and produces a similar plot as \code{\link[=ts_plot]{ts_plot()}},
-but uses the \href{http://ggplot2.org/}{ggplot2} graphic system, and can be
+but uses the \href{https://ggplot2.tidyverse.org/}{ggplot2} graphic system, and can be
 customized. With \code{\link[=theme_tsbox]{theme_tsbox()}} and \code{\link[=scale_color_tsbox]{scale_color_tsbox()}}, the output of
 \code{ts_ggplot} has a similar look and feel.
 }
@@ -61,7 +57,7 @@ p + theme_tsbox() + scale_color_tsbox()
 suppressMessages(library(ggplot2))
 df <- ts_df(ts_c(total = ldeaths, female = fdeaths, male = mdeaths))
 ggplot(df, aes(x = time, y = value)) +
-  facet_wrap("id") + 
+  facet_wrap("id") +
   geom_line() +
   theme_tsbox() +
   scale_color_tsbox()

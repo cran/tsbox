@@ -2,17 +2,10 @@
 % Please edit documentation in R/ts_span.R
 \name{ts_span}
 \alias{ts_span}
-\alias{ts_span}
-\alias{ts_start}
-\alias{ts_span}
-\alias{ts_end}
 \title{Limit Time Span}
 \usage{
-ts_span(x, start = NULL, end = NULL, template = NULL)
-
-ts_start(x)
-
-ts_end(x)
+ts_span(x, start = NULL, end = NULL, template = NULL,
+  extend = FALSE)
 }
 \arguments{
 \item{x}{ts-boxable time series, an object of class \code{ts}, \code{xts}, \code{zoo}, \code{data.frame}, \code{data.table}, \code{tbl}, \code{tbl_ts}, \code{tbl_time}, or \code{timeSeries}.}
@@ -24,6 +17,8 @@ ts_end(x)
 \item{template}{ts-boxable time series, an object of class \code{ts}, \code{xts},
 \code{data.frame}, \code{data.table}, or \code{tibble}. If provided, \code{from} and \code{to}
 will be extracted from the object.}
+
+\item{extend}{logical. If true, the start and end values are allowed to extend the series (by adding \code{NA} values).}
 }
 \value{
 a ts-boxable time series, with the same class as the input.
@@ -38,11 +33,12 @@ possible. See examples.
 
 \code{start} and \code{end} can be specified relative to each other,
 using one of \code{"sec"}, \code{"min"}, \code{"hour"}, \code{"day"}, \code{"week"},
-\code{"month"}, \code{"quarter" or}"year", or an abbreviation. If the series are of the same frequency, the
+\code{"month"}, \code{"quarter" or }"year", or an abbreviation. If the series are of the same frequency, the
 shift can be specified in periods. See examples.
 }
 \examples{
 
+\donttest{
 # use 'anytime' shortcuts
 ts_span(mdeaths, start = "1979")       # shortcut for 1979-01-01
 ts_span(mdeaths, start = "1979-4")     # shortcut for 1979-04-01
@@ -58,7 +54,6 @@ ts_span(mdeaths, start = -7)           # last 7 periods
 ts_span(mdeaths, start = -1)           # last single value
 ts_span(mdeaths, end = "1e4 hours")    # first 10000 hours
 
-\donttest{
 ts_plot(
   ts_span(mdeaths, start = "-3 years"),
   title = "Three years ago",
@@ -74,4 +69,5 @@ ts_ggplot(
 
 # Limit span of 'discoveries' to the same span as 'AirPassengers'
 ts_span(discoveries, template = AirPassengers)
+ts_span(mdeaths, end = "19801201", extend = TRUE)
 }

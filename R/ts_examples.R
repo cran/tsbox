@@ -9,42 +9,47 @@
 #' packages.
 #'
 #' @inherit ts_dts
-#' @param ... further arguments, passed to the underlying function. For help, consider these functions, e.g., [stats::prcomp].
+#' @param ... further arguments, passed to the underlying function. For help,
+#'   consider these functions, e.g., [stats::prcomp].
 #'
-#' @return Usually, a ts-boxable time series, with the same class as the input. `ts_dygraphs` draws a plot.
+#' @seealso [Vignette](https://www.tsbox.help/articles/ts-functions.html) on how
+#'   to make arbitrary functions ts-boxable.
+#'
+#' @return Usually, a ts-boxable time series, with the same class as the input.
+#'   `ts_dygraphs` draws a plot.
 #'
 #' @examples
 #' \donttest{
 #' ts_plot(
 #'   ts_scale(ts_c(
-#'     Male = mdeaths, 
+#'     Male = mdeaths,
 #'     Female = fdeaths,
 #'     `First principal compenent` = -ts_prcomp(ts_c(mdeaths, fdeaths))[, 1]
 #'   )),
-#'   title = "Deaths from lung diseases", 
+#'   title = "Deaths from lung diseases",
 #'   subtitle = "Normalized values"
 #' )
-#' 
+#'
 #' ts_plot(ts_c(
 #'   male = mdeaths, female = fdeaths,
 #'   ts_forecast(ts_c(`male (fct)` = mdeaths,  `female (fct)` = fdeaths))),
-#'   title = "Deaths from lung diseases", 
+#'   title = "Deaths from lung diseases",
 #'   subtitle = "Exponential smoothing forecast"
 #' )
-#' 
+#'
 #' ts_plot(
 #'   `Raw series` = AirPassengers,
 #'   `Adjusted series` = ts_seas(AirPassengers),
-#'   title = "Airline passengers", 
+#'   title = "Airline passengers",
 #'   subtitle = "X-13 seasonal adjustment"
 #' )
-#' 
-#' 
+#'
+#'
 #' ts_dygraphs(ts_c(mdeaths, EuStockMarkets))
 #' }
 #' @export
 #' @name ts_examples
-ts_prcomp <- ts_(function(x) predict(prcomp(x, scale = TRUE)))
+ts_prcomp <- ts_(function(x, ...) predict(prcomp(x, scale = TRUE, ...)))
 
 #' @export
 #' @name ts_examples
@@ -52,8 +57,8 @@ ts_dygraphs <- ts_(dygraphs::dygraph, class = "xts", reclass = FALSE)
 
 #' @export
 #' @name ts_examples
-ts_forecast <- ts_(function(x) forecast::forecast(x)$mean, vectorize = TRUE)
+ts_forecast <- ts_(function(x, ...) forecast::forecast(ts_na_omit(x), ...)$mean, vectorize = TRUE)
 
 #' @export
 #' @name ts_examples
-ts_seas <- ts_(function(x) seasonal::final(seasonal::seas(x)), vectorize = TRUE)
+ts_seas <- ts_(function(x, ...) seasonal::final(seasonal::seas(x, ...)), vectorize = TRUE)
