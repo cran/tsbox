@@ -16,10 +16,10 @@
 #' ts_bind(mdeaths, c(2, 2))
 #' ts_bind(mdeaths, 3, ts_bind(fdeaths, c(99, 2)))
 #' ts_bind(ts_dt(mdeaths), AirPassengers)
-#' 
+#'
 #' # numeric vectors
 #' ts_bind(12, AirPassengers, c(2, 3))
-#' 
+#'
 #' @export
 ts_bind <- function(...) {
   ll <- list(...)
@@ -67,13 +67,13 @@ bind_numeric <- function(a, b, backwards = FALSE) {
 
     if (backwards){
       setorder(z, time)
-    } 
+    }
     z
   }
 
   setnames(a, cname$time, "time")
   setnames(a, cname$value, "value")
-  .by <- parse(text = paste0("list(", paste(cname$id, collapse = ", "), ")"))
+  .by <- by_expr(cname$id)
   z <- a[
     ,
     add_scalar_one(.SD),
@@ -103,13 +103,23 @@ bind_two <- function(a, b) {
   a <- ts_dts(copy(a))
   b <- ts_dts(copy(b))
 
+  cols_a <- copy(names(a))
+
+  default_colnames <- function(x) {
+    cname <- attr(x, "cname")
+    setnames(x, cname$time, "time")
+    setnames(x, cname$value, "value")
+    x
+  }
+
   cname <- dts_cname(a)
+  cname_b <- dts_cname(b)
 
   setnames(a, cname$time, "time")
-  setnames(b, dts_cname(b)$time, "time")
+  setnames(b, cname_b$time, "time")
 
   setnames(a, cname$value, "value")
-  setnames(b, cname$value, "value_b")
+  setnames(b, cname_b$value, "value_b")
 
   if (!identical(cname$id, dts_cname(b)$id)) {
     stop(
@@ -126,10 +136,10 @@ bind_two <- function(a, b) {
   z <- z[is.na(value), value := value_b]
   z[, value_b := NULL]
 
-  # canonical col order
-  setcolorder(z, c(setdiff(names(z), c("time", "value")), c("time", "value")))
-
   setnames(z, "time", cname$time)
   setnames(z, "value", cname$value)
-  z[]
+  # keep order of first object
+  setcolorder(z, cols_a)
+  setattr(z, "cname", cname)
+  dts_init_minimal(z)
 }

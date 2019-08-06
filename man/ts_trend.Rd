@@ -7,7 +7,7 @@
 ts_trend(x, ...)
 }
 \arguments{
-\item{x}{ts-boxable time series, an object of class \code{ts}, \code{xts}, \code{zoo}, \code{data.frame}, \code{data.table}, \code{tbl}, \code{tbl_ts}, \code{tbl_time}, or \code{timeSeries}.}
+\item{x}{ts-boxable time series, an object of class \code{ts}, \code{xts}, \code{zoo}, \code{data.frame}, \code{data.table}, \code{tbl}, \code{tbl_ts}, \code{tbl_time}, \code{tis}, \code{irts} or \code{timeSeries}.}
 
 \item{...}{arguments, passed to \code{\link[stats:loess]{stats::loess()}}:
 \itemize{
@@ -21,7 +21,7 @@ Trend estimation that uses \code{\link[stats:loess]{stats::loess()}}.
 \examples{
 \donttest{
 ts_plot(
-   `Raw series` = fdeaths, 
+   `Raw series` = fdeaths,
    `Loess trend` = ts_trend(fdeaths),
    title = "Deaths from Lung Diseases",
    subtitle = "per month"

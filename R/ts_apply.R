@@ -5,35 +5,25 @@
 
 ts_apply_dts <- function(x, fun, ...) {
   stopifnot(inherits(x, "dts"))
-  if (number_of_series(x) == 1) return({
-    cname <- dts_cname(x)
-    setnames(x, cname$time, "time")
-    setnames(x, cname$value, "value")
+  d <- dts_default(x); x <- d$x
+  if (number_of_series(x) == 1) {
     z <- fun(x, ...)
-    setnames(z, "time", cname$time)
-    setnames(z, "value", cname$value)
-    z
-  })
-
-  # probably ok to do this here.
-  # x <- ts_na_omit(x)
-
-  cname <- dts_cname(x)
-  setnames(x, cname$time, "time")
-  setnames(x, cname$value, "value")
-  .by <- parse(text = paste0("list(", paste(cname$id, collapse = ", "), ")"))
-
-  # modifiy cname, to reflect single series character of .SD
-  cname.sd <- cname
-  cname.sd$id <- character(0)
-
-  setattr(x, "cname", cname.sd)
-  z <- x[, fun(.SD, ...), by = eval(.by)]
-
-  setnames(z, "time", cname$time)
-  setnames(z, "value", cname$value)
-  setattr(z, "cname", cname)
-  dts_init(z)
+    # ensure id columns are preserved
+    missing.cid <- setdiff(colnames(x), colnames(z))
+    if (length(missing.cid) > 0) {
+      for (i in missing.cid) {
+        z[[i]] <- unique(x[[i]])
+      }
+    }
+  } else {
+    .by <- by_expr(dts_cname(x)$id)
+    # modifiy cname, to reflect single series character of .SD
+    cname.sd <- dts_cname(x)
+    cname.sd$id <- character(0)
+    setattr(x, "cname", cname.sd)
+    z <- x[, fun(.SD, ...), by = eval(.by)]
+  }
+  dts_restore(z, d)
 }
 
 # ts_apply(ts_c(mdeaths, fdeaths), ts_diff)

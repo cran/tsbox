@@ -33,7 +33,7 @@ remotes::install_github("christophsax/tsbox")
 
 tsbox is built around a set of converters, which convert time series stored as
 **ts**, **xts**, **data.frame**, **data.table**, **tibble**, **zoo**,
-**tsibble**,  **tibbletime** or **timeSeries** to each other:
+**tsibble**,  **tibbletime**, **timeSeries**, **irts** or **tis** to each other:
 
 ```r
 library(tsbox)
@@ -46,7 +46,10 @@ x.zoo <- ts_zoo(x.tbl)
 x.tsibble <- ts_tsibble(x.zoo)
 x.tibbletime <- ts_tibbletime(x.tsibble)
 x.timeSeries <- ts_timeSeries(x.tibbletime)
-all.equal(ts_ts(x.timeSeries), x.ts)  # TRUE
+x.irts <- ts_irts(x.tibbletime)
+x.tis <- ts_tis(x.irts)
+all.equal(ts_ts(x.tis), x.ts)
+#> [1] TRUE
 ```
 
 ### Use same functions for time series classes
@@ -89,5 +92,10 @@ ts_plot(ts_scale(ts_c(mdeaths, austres, AirPassengers, DAX = EuStockMarkets[ ,'D
 ```
 
 ![](https://raw.githubusercontent.com/christophsax/tsbox/master/vignettes/fig/myfig.png)
+
+
+### Cheatsheet
+
+<a href="https://www.cynkra.com/blog/img/2019/04/10/tsbox-cheatsheet.pdf"><img style="max-width:50%;" src="https://www.cynkra.com/blog/img/2019/04/10/tsbox-cheatsheet-small.jpg"></a>
 
 

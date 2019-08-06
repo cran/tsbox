@@ -19,7 +19,7 @@ ts_pcy(x)
 ts_diffy(x)
 }
 \arguments{
-\item{x}{ts-boxable time series, an object of class \code{ts}, \code{xts}, \code{zoo}, \code{data.frame}, \code{data.table}, \code{tbl}, \code{tbl_ts}, \code{tbl_time}, or \code{timeSeries}.}
+\item{x}{ts-boxable time series, an object of class \code{ts}, \code{xts}, \code{zoo}, \code{data.frame}, \code{data.table}, \code{tbl}, \code{tbl_ts}, \code{tbl_time}, \code{tis}, \code{irts} or \code{timeSeries}.}
 }
 \value{
 a ts-boxable time series, with the same class as the input.
@@ -27,8 +27,9 @@ a ts-boxable time series, with the same class as the input.
 \description{
 \code{ts_pcy} and \code{ts_diffy} calculate the percentage change rate and the
 difference compared to the previous period, \code{ts_pcy} and \code{ts_diffy} calculate
-compared to the same period of the previous year. \code{ts_pca} calculates
-annualized percentage change rates compared to the previous period.
+the percentage change rate compared to the same period of the previous year.
+\code{ts_pca} calculates annualized percentage change rates compared to the
+previous period.
 }
 \examples{
 tail(ts_diff(ts_c(fdeaths, mdeaths)))

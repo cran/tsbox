@@ -29,7 +29,7 @@ ts_c <- function(...) {
 
   if (length(ll) == 1) return(ll[[1]])
 
-  call.names <- unlist(lapply(substitute(placeholderFunction(...))[-1], deparse, 
+  call.names <- unlist(lapply(substitute(placeholderFunction(...))[-1], deparse,
                               width.cutoff = 500L))
   # use name if specified in call
   call.names[names(call.names) != ""] <- names(call.names)[names(call.names) != ""]
@@ -85,13 +85,27 @@ ts_c <- function(...) {
   ll.dts <- unify_time_class(ll.dts)
   ll.dts <- make_ids_unique(ll.dts, cid = cid)
 
-  z0 <- rbindlist(ll.dts)
+  # make sure the detected ctime and cvalues are used
+  cname <- dts_cname(ll.dts[[1]])
+  default_colnames <- function(x) {
+    cname <- attr(x, "cname")
+    setnames(x, cname$time, "time")
+    setnames(x, cname$value, "value")
+    x
+  }
+  ll.dts <- lapply(ll.dts, default_colnames)
+
+  z0 <- rbindlist(ll.dts, use.names = TRUE)
+  setnames(z0, "time", cname$time)
+  setnames(z0, "value", cname$value)
+  setattr(z0, "cname", cname)
+
   z <- try(as_class(desired.class)(z0), silent = TRUE)
 
   if (inherits(z, "try-error")) {
     z <- ts_df(z0)
     message("cannot convert output to class '", desired.class, "', returning 'data.frame'")
-  } 
+  }
   z
 }
 
@@ -117,7 +131,7 @@ make_ids_unique <- function(ll, cid) {
   old.id <- unname(lapply(ll, function(e) unique(e[, cid, with = FALSE])))
   old.id.tab <- rbindlist(old.id, idcol = ".element")
   if (length(cid) > 1){
-    old.id.tab <- combine_cols_data.table(old.id.tab, cid, sep = "__cut_here__")  
+    old.id.tab <- combine_cols_data.table(old.id.tab, cid, sep = "__cut_here__")
   } else {
     setnames(old.id.tab, cid, "id")
   }
