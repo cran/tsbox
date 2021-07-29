@@ -1,6 +1,37 @@
-# tsbox 0.2.1 (2020-04-29)
+# tsbox 0.3.0 (2021-07-26)
 
 ## Features
+
+- export ts_first_of_period #178
+- regular zoo and xts can be processed #175, #189
+- ts_na_interpolation() exported and added to examples in ?ts_examples #127
+- support regular timestamps in tsibble #196
+- ensure time is always ordered #202
+- ts_index(): base period can be entered as a range #188
+- ts_frequency() also works for weeks, sec, min, hours #183
+
+
+## Bug fixes
+
+- ts to data frame conversion works with slight offsets #186
+- ts_trend does retransform #193
+- tslist: Use ids to name single elements if possible #194
+- ts_bind works with short series and scalars #197
+- more tolerance towards misspecified ts objects #195
+- ts_wide does not fail on tsibble etc. #173
+
+
+## Documentation
+
+- point to tempdisagg::td() for low to high frequency conversion #142
+- better error messages if series contain duplicates #181
+- better error messages when converting one row data frames #179
+- better error messages when time col contains NA #184
+
+
+# tsbox 0.2.1 (2020-04-29)
+
+## Bug fixes
 
 - Fix test case that failed with dplyr 1.0 #182
 
@@ -9,14 +40,14 @@
 
 ## Features
 
-- Construction of expressions for data.tables are done problerly and now
+- Construction of expressions for data.tables are done properly and now
   are able to contain spaces or non-ASCII characters
   (#151, thanks @stefanfritsch)
 - ts_default() puts data frames in default order (ids, time, value) (#166)
 - Consistent handling of non-default colnames and colorder in data frames (#166)
 - Support for 'tis' time series (#150)
 - Support for 'irts' time series, from package tseries
-- Tweakes color schemes
+- Tweaks to color schemes
 
 ## Bug fixes
 

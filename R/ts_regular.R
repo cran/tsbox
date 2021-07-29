@@ -51,17 +51,27 @@ regular_core <- function(x) {
   cname <- dts_cname(x)
   ctime <- cname$time
   cid <- cname$id
+  .SD <- NULL
 
   names.x <- copy(names(x))
   setnames(x, ctime, "time")
 
   regular_core_one <- function(x) {
+    if (any(is.na(x$time))) {
+      stop("Time column contains missing values.", call. = FALSE)
+    }
+
     if (is_regular_one_basic(x$time)) return(x)
     reg.time <- regularize_date(x$time)
     if (is.null(reg.time)) {
       stop("series has no regular pattern", call. = FALSE)
     }
-    merge_time_date(data.table(time = reg.time), x, by.x = "time", by.y = "time")
+    merge_time_date(
+      data.table(time = reg.time),
+      x,
+      by.x = "time",
+      by.y = "time"
+    )
   }
 
   if (length(cid) == 0) {

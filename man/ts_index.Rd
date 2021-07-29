@@ -10,18 +10,23 @@ ts_compound(x, denominator = 100)
 ts_index(x, base = NULL)
 }
 \arguments{
-\item{x}{ts-boxable time series, an object of class \code{ts}, \code{xts}, \code{zoo}, \code{data.frame}, \code{data.table}, \code{tbl}, \code{tbl_ts}, \code{tbl_time}, \code{tis}, \code{irts} or \code{timeSeries}.}
+\item{x}{ts-boxable time series, an object of class \code{ts}, \code{xts}, \code{zoo},
+\code{data.frame}, \code{data.table}, \code{tbl}, \code{tbl_ts}, \code{tbl_time}, \code{tis}, \code{irts} or
+\code{timeSeries}.}
 
-\item{denominator}{numeric, set equal to one if percentage change rate is given a
-decimal fraction}
+\item{denominator}{numeric, set equal to one if percentage change rate is
+given a decimal fraction}
 
-\item{base}{base date, character string, \code{Date} or \code{POSIXct}, at which the}
+\item{base}{base date, character string, \code{Date} or \code{POSIXct}, at which the
+index is set to 1. If two dates are provided, the average with the range is
+set equal to 1 (see examples).}
 }
 \value{
 a ts-boxable time series, with the same class as the input.
 }
 \description{
-\code{ts_index} returns an index series, with value of 1 at \code{base} date.
+\code{ts_index} returns an indexed series, with value of 1 at the \code{base} date or
+range.
 \code{ts_compound} builds an index from percentage change rates, starting with 1
 and compounding the rates.
 }
@@ -36,5 +41,8 @@ ts_plot(
   `So Far` = mdeaths,
   title = "A Very Manual Forecast"
 )
+
+# average of 1974 = 1
+ts_index(mdeaths, c("1974-01-01", "1974-12-31"))
 }
 }

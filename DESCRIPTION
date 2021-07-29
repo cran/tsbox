@@ -1,8 +1,7 @@
 Package: tsbox
 Type: Package
 Title: Class-Agnostic Time Series
-Version: 0.2.1
-Date: 2020-04-29
+Version: 0.3.0
 Authors@R: person("Christoph", "Sax", email = "christoph.sax@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-7192-7044"))
 Description: Time series toolkit with identical behavior for all
   time series classes: 'ts','xts', 'data.frame', 'data.table', 'tibble', 'zoo',
@@ -11,16 +10,18 @@ Imports: data.table (>= 1.10.0), anytime
 Suggests: testthat, dplyr, tibble, forecast, seasonal, dygraphs, xts,
         ggplot2, scales, knitr, rmarkdown, tsibble (>= 0.8.2),
         tsibbledata, tibbletime, tseries, zoo, tis, timeSeries,
-        nycflights13
+        nycflights13, imputeTS, spelling
 License: GPL-3
 Encoding: UTF-8
-URL: https://www.tsbox.help
+URL: https://www.tsbox.help, https://github.com/christophsax/tsbox
 BugReports: https://github.com/christophsax/tsbox/issues
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr
+Depends: R (>= 2.10)
+Language: en-US
 NeedsCompilation: no
-Packaged: 2020-04-29 18:36:24 UTC; christoph
+Packaged: 2021-07-28 09:29:49 UTC; christoph
 Author: Christoph Sax [aut, cre] (<https://orcid.org/0000-0002-7192-7044>)
 Maintainer: Christoph Sax <christoph.sax@gmail.com>
 Repository: CRAN
-Date/Publication: 2020-04-29 19:20:03 UTC
+Date/Publication: 2021-07-29 08:40:01 UTC

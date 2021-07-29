@@ -4,10 +4,17 @@
 \alias{ts_frequency}
 \title{Change Frequency}
 \usage{
-ts_frequency(x, to = "year", aggregate = "mean", na.rm = FALSE)
+ts_frequency(
+  x,
+  to = c("year", "quarter", "month", "week", "day", "hour", "min", "sec"),
+  aggregate = "mean",
+  na.rm = FALSE
+)
 }
 \arguments{
-\item{x}{ts-boxable time series, an object of class \code{ts}, \code{xts}, \code{zoo}, \code{data.frame}, \code{data.table}, \code{tbl}, \code{tbl_ts}, \code{tbl_time}, \code{tis}, \code{irts} or \code{timeSeries}.}
+\item{x}{ts-boxable time series, an object of class \code{ts}, \code{xts}, \code{zoo},
+\code{data.frame}, \code{data.table}, \code{tbl}, \code{tbl_ts}, \code{tbl_time}, \code{tis}, \code{irts} or
+\code{timeSeries}.}
 
 \item{to}{desired frequency, either a character string (\code{"year"},
 \code{"quarter"}, \code{"month"}) or an integer (\code{1}, \code{4}, \code{12}).}
@@ -25,6 +32,11 @@ a ts-boxable time series, with the same class as the input.
 Changes the frequency of a time series. By default, incomplete
 periods of regular series are omitted.
 }
+\details{
+The tempdisagg package can convert low frequency to high frequency data and
+has support for ts-boxable objects. See
+\code{vignette("hf-disagg", package = "tempdisagg")}.
+}
 \examples{
 \donttest{
 ts_frequency(cbind(mdeaths, fdeaths), "year", "sum")
@@ -36,4 +48,7 @@ ts_frequency(AirPassengers, 4, "sum")
 ts_frequency(EuStockMarkets, "year")
 ts_frequency(EuStockMarkets, "year", na.rm = TRUE)
 }
+}
+\seealso{
+\code{\link[tempdisagg:td]{tempdisagg::td()}}, for conversion from low to high frequency.
 }

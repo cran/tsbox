@@ -1,15 +1,13 @@
 
-
 dts_init <- function(x){
+
+  .SD <- NULL
   stopifnot(inherits(x, "data.frame"))
   x <- as.data.table(x)
   stopifnot(inherits(x, "data.table"))
   setattr(x, "class", c("dts", attr(x, "class")))
   stopifnot(inherits(x, "dts"))
   cname <- dts_cname(x)
-  # old
-  # x[[cname$time]] <- as_time_or_date(x[[cname$time]])
-  # x <- ts_na_omit(x)
 
   # do not allow duplicates
   is.dup <- duplicated(x[, c(cname$id, cname$time), with = FALSE])
@@ -17,12 +15,31 @@ dts_init <- function(x){
     z <- as.data.frame(unique(x[is.dup, cname$id, with = FALSE]))
     paste_ <- function(...) paste(..., sep = "_")
     dups <- do.call(paste_, as.list(z))
-    stop("duplicated series: ", paste(dups, collapse = ", "), call. = FALSE)
+    if (length(dups) > 0) {
+      stop(
+        "Object contains series with duplicated information: ",
+        paste(dups, collapse = ", "),
+        call. = FALSE
+      )
+    } else {
+      stop(
+        "Series contains duplicated values in time column: ",
+        unique(x[[cname$time]][duplicated(x[[cname$time]])]),
+        call. = FALSE
+      )
+    }
   }
 
   # new
   setnames(x, cname$time, "time")
   x[, time := as_time_or_date(time)]
+
+  # ensure time is always ordered (if not done before)
+  colorder <- names(x)
+  .by <- by_expr(dts_cname(x)$id)
+  x <- x[, setorder(.SD, time), by = eval(.by)]
+  setcolorder(x, colorder)
+
   setnames(x, "time", cname$time)
   setattr(x, "cname", cname)
 
