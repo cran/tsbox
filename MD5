@@ -1,6 +1,6 @@
-e2dfcb49b3791e0934b2b100953d190a *DESCRIPTION
+3b3414f17663bf0b17c9ad8f7b7c1aca *DESCRIPTION
 095b3b36073aff845eacfea5a2475a96 *NAMESPACE
-2e88fb1255a24a16e53d6312c8944670 *NEWS.md
+04bf5a35c2a7b7e9f0015e56081bcee1 *NEWS.md
 2a09562dc72360d6f17998ccec6f2c32 *R/0_convert_data.R
 011fc7bf3d552b885fa53339a3a7b0cd *R/convert_exact.R
 266345ab4a81e1192ea122aca8fefe93 *R/convert_heuristic.R
@@ -35,8 +35,8 @@ d304f14a753b4dec3b8228fe9905ac53 *R/ts_c.R
 6129fba81909dc7c4eb8a3c938916f6a *R/ts_chain.R
 46fed61e7892c094cfd99fe5df7c391a *R/ts_default.R
 682ba7cf1e87805ae152b2a26664d35e *R/ts_examples.R
-692b177f53ef3702b02a777a6823fc4f *R/ts_first_of_period.R
-c4e053fc8614b426feabdaaec990801c *R/ts_frequency.R
+89bf42db05e3144074cc864e06b191eb *R/ts_first_of_period.R
+8ea6452c6e250416af63255e36d37b51 *R/ts_frequency.R
 0c6b0e68ad2b6070ab996c72975f931d *R/ts_ggplot.R
 2cdff3ea43f8ede9283faf46fc56bd64 *R/ts_index.R
 b219f1b9e438edc135cb3fc8cb736058 *R/ts_lag.R
@@ -53,7 +53,7 @@ cb48a26155706899cdcfba99a510bb3d *R/ts_trend.R
 0f5817d61830e7ab9eb0ed389d5ec02b *R/tsbox-deprecated.R
 3c85961274220ff65bcb0984d5766c2c *R/tsbox-package.R
 3bf82ad28d2fcf58f8c56f7cf370b318 *README.md
-6d9dde41b984db7359f14f39491f2c91 *build/vignette.rds
+15f445bd0b3e38daabdb9d593a38fc9f *build/vignette.rds
 1a9d728c71f286b7c03d31c92beebced *inst/CITATION
 3abcddfe534392c4812fe41d9c89eab3 *inst/WORDLIST
 0bb176bec47ebf36d28a4d37a4012858 *inst/doc/convert.Rmd
@@ -73,8 +73,8 @@ a74ba23cdb7b709485b7e07479dd31d8 *man/ts_c.Rd
 e72b9b248bcce62d13fe5530c5b749c1 *man/ts_default.Rd
 f89cc805dcbc445a25fc9e6ec5f0c475 *man/ts_dts.Rd
 d82fba3cba29ad6f286f048d251642e3 *man/ts_examples.Rd
-12751d4a870c83195b96179357599ba2 *man/ts_first_of_period.Rd
-a4d0f27bb230b6baab9ab7cce7ee4445 *man/ts_frequency.Rd
+991a0f7cefb29fb25596669f13b1f19a *man/ts_first_of_period.Rd
+164495e539e28de3560d5b4e337f2707 *man/ts_frequency.Rd
 9982ce1a8cbecf1db605f57c6fc47584 *man/ts_ggplot.Rd
 ceafc1d5cd16e62a204c92a4e1f83a30 *man/ts_index.Rd
 e2cf2af5527e8ff951a7bd7f70c0e8b1 *man/ts_lag.Rd
@@ -113,7 +113,7 @@ a32a2f3bb70689dd3bb624bf98a241da *tests/testthat/test-subannual.R
 967e3ee695381d036f1c4046a020b986 *tests/testthat/test-ts_chain.R
 a57dc6888860b5a9d6553b2884412a5c *tests/testthat/test-ts_default.R
 0dd3db01c1e43fa4d6948d7f32ee0f51 *tests/testthat/test-ts_first_of_period.R
-fc3540e925e1d67ae964b51ff230b1b8 *tests/testthat/test-ts_frequency.R
+ad295a31831d7bae8046e821a49d67f8 *tests/testthat/test-ts_frequency.R
 0ffa435303851db5b165624fb580c791 *tests/testthat/test-ts_high_freq.R
 e823d9c61a398c315e84c1922a2d3706 *tests/testthat/test-ts_index.R
 315eb240435fba253329c6fdb227f7f3 *tests/testthat/test-ts_irregular.R
