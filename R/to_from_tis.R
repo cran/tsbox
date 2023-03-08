@@ -2,6 +2,8 @@ register_class("tis")
 
 # to ---------------------------------------------------------------------------
 
+#' Convert to Class
+#' @noRd
 ts_tis_dts <- function(x) {
   stopifnot(requireNamespace("tis"))
   x.ts <- ts_ts(x)
@@ -26,7 +28,9 @@ ts_dts.tis <- function(x) {
 #' @name ts_ts
 #' @export
 ts_tis <- function(x) {
-  stopifnot(ts_boxable(x))
-  if (relevant_class(x) == "tis") return(x)
+  check_ts_boxable(x)
+  if (relevant_class(x) == "tis") {
+    return(x)
+  }
   ts_tis_dts(ts_dts(x))
 }

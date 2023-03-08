@@ -2,6 +2,8 @@ register_class("xts")
 
 # to ---------------------------------------------------------------------------
 
+#' Convert to Class
+#' @noRd
 ts_xts_dts <- function(x) {
   stopifnot(inherits(x, "dts"))
   stopifnot(requireNamespace("xts"))
@@ -32,11 +34,12 @@ ts_dts.xts <- function(x) {
   }
 
   dta <- data.table(time = time, dta)
-  if (NCOL(dta) == 2) {
+  if (NCOL(dta) == 2L) {
     setnames(dta, c("time", "value"))
   } else {
     dta <- melt(
-      dta, id.vars = "time", variable.name = "id", variable.factor = FALSE
+      dta,
+      id.vars = "time", variable.name = "id", variable.factor = FALSE
     )
     setcolorder(dta, c("id", "time", "value"))
   }
@@ -49,7 +52,9 @@ ts_dts.xts <- function(x) {
 #' @name ts_ts
 #' @export
 ts_xts <- function(x) {
-  stopifnot(ts_boxable(x))
-  if (relevant_class(x) == "xts") return(x)
+  check_ts_boxable(x)
+  if (relevant_class(x) == "xts") {
+    return(x)
+  }
   ts_xts_dts(ts_dts(x))
 }

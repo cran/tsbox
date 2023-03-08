@@ -5,7 +5,12 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/christophsax/tsbox/workflows/R-CMD-check/badge.svg)](https://github.com/christophsax/tsbox/actions)
+[![R-CMD-check](https://github.com/ropensci/tsbox/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/tsbox/actions)
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Codecov test
+coverage](https://codecov.io/gh/ropensci/tsbox/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropensci/tsbox?branch=main)
 <!-- badges: end -->
 
 The R ecosystem knows a [vast
@@ -18,8 +23,8 @@ it easy to deal with time series in a
 [dplyr](https://CRAN.R-project.org/package=dplyr) or
 [data.table](https://CRAN.R-project.org/package=data.table) workflow.
 
-See [tsbox.help](https://www.tsbox.help/) for the full documentation of
-the package.
+See [tsbox.help](https://docs.ropensci.org/tsbox/) for the full
+documentation of the package.
 
 To install the stable version from CRAN:
 
@@ -31,15 +36,16 @@ To install the development version:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("christophsax/tsbox")
+remotes::install_github("ropensci/tsbox")
+install.packages("ropensci/tsbox", repos = "https://ropensci.r-universe.dev")
 ```
 
 ### Convert everything to everything
 
 tsbox is built around a set of converters, which convert time series
 stored as **ts**, **xts**, **data.frame**, **data.table**, **tibble**,
-**zoo**, **tsibble**, **tibbletime**, **timeSeries**, **irts** or
-**tis** to each other:
+**zoo**, **zooreg**, **tsibble**, **tibbletime**, **timeSeries**,
+**irts** or **tis** to each other:
 
 ``` r
 library(tsbox)
@@ -49,7 +55,8 @@ x.df <- ts_df(x.xts)
 x.dt <- ts_dt(x.df)
 x.tbl <- ts_tbl(x.dt)
 x.zoo <- ts_zoo(x.tbl)
-x.tsibble <- ts_tsibble(x.zoo)
+x.zooreg <- ts_zoo(x.zoo)
+x.tsibble <- ts_tsibble(x.zooreg)
 x.tibbletime <- ts_tibbletime(x.tsibble)
 x.timeSeries <- ts_timeSeries(x.tibbletime)
 x.irts <- ts_irts(x.tibbletime)
@@ -95,7 +102,7 @@ be. And we finally get a legend!
 
     ts_plot(ts_scale(ts_c(mdeaths, austres, AirPassengers, DAX = EuStockMarkets[ ,'DAX'])))
 
-![](https://raw.githubusercontent.com/christophsax/tsbox/master/vignettes/fig/myfig.png)
+![](https://raw.githubusercontent.com/ropensci/tsbox/master/vignettes/fig/myfig.png)
 
 ### Cheatsheet
 

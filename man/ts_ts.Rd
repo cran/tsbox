@@ -2,7 +2,7 @@
 % Please edit documentation in R/to_from_data.frame.R, R/to_from_data.table.R,
 %   R/to_from_tibble.R, R/to_from_tibbletime.R, R/to_from_timeSeries.R,
 %   R/to_from_tis.R, R/to_from_ts.R, R/to_from_tseries.R, R/to_from_tsibble.R,
-%   R/to_from_tslist.R, R/to_from_xts.R, R/to_from_zoo.R
+%   R/to_from_tslist.R, R/to_from_xts.R, R/to_from_zoo.R, R/to_from_zooreg.R
 \name{ts_ts}
 \alias{ts_ts}
 \alias{ts_data.frame}
@@ -18,6 +18,7 @@
 \alias{ts_tslist}
 \alias{ts_xts}
 \alias{ts_zoo}
+\alias{ts_zooreg}
 \title{Convert Everything to Everything}
 \usage{
 ts_data.frame(x)
@@ -47,21 +48,23 @@ ts_tslist(x)
 ts_xts(x)
 
 ts_zoo(x)
+
+ts_zooreg(x)
 }
 \arguments{
 \item{x}{ts-boxable time series, an object of class \code{ts}, \code{xts}, \code{zoo},
-\code{data.frame}, \code{data.table}, \code{tbl}, \code{tbl_ts}, \code{tbl_time}, \code{tis}, \code{irts} or
-\code{timeSeries}.}
+\code{zooreg}, \code{data.frame}, \code{data.table}, \code{tbl}, \code{tbl_ts}, \code{tbl_time}, \code{tis},
+\code{irts} or \code{timeSeries}.}
 }
 \value{
-ts-boxable time series of the desired class, an object of class \code{ts},
-\code{xts}, \code{zoo}, \code{data.frame}, \code{data.table}, \code{tbl}, \code{tbl_ts}, \code{tbl_time}, \code{tis},
-\code{irts} or \code{timeSeries}.
+ts-boxable time series of the desired class, i.e., an object of
+class \code{ts}, \code{xts}, \code{zoo}, \code{zooreg}, \code{data.frame}, \code{data.table}, \code{tbl},
+\code{tbl_ts}, \code{tbl_time}, \code{tis}, \code{irts} or \code{timeSeries}.
 }
 \description{
 tsbox is built around a set of converters, which convert time series
-stored as \code{ts}, \code{xts}, \code{zoo}, \code{data.frame}, \code{data.table}, \code{tbl}, \code{tbl_ts},
-\code{tbl_time}, \code{tis}, \code{irts} or \code{timeSeries} to each other.
+stored as \code{ts}, \code{xts}, \code{zoo}, \code{zooreg}, \code{data.frame}, \code{data.table}, \code{tbl},
+\code{tbl_ts}, \code{tbl_time}, \code{tis}, \code{irts} or \code{timeSeries} to each other.
 }
 \details{
 In data frames, multiple time series will be stored in a 'long' format. tsbox
@@ -98,32 +101,33 @@ stamp of a period will be a point in time (of class \code{"POSIXct"}).
 \examples{
 
 x.ts <- ts_c(mdeaths, fdeaths)
-head(x.ts)
-head(ts_df(x.ts))
+x.ts
+ts_df(x.ts)
 
 suppressMessages(library(dplyr))
-head(ts_tbl(x.ts))
+ts_tbl(x.ts)
 
 suppressMessages(library(data.table))
-head(ts_dt(x.ts))
+ts_dt(x.ts)
 
 suppressMessages(library(xts))
-head(ts_xts(x.ts))
+ts_xts(x.ts)
 
 # heuristic time conversion
 # 1 month: approx. 1/12 year
-head(ts_df(AirPassengers))
+ts_df(AirPassengers)
 
 # exact time conversion
 # 1 trading day: exactly 1/260 year
-head(ts_df(EuStockMarkets))
+ts_df(EuStockMarkets)
 
-# multiple id
-multi.id.df <- rbind(
-  within(ts_df(ts_c(fdeaths, mdeaths)), type <- "level"),
-  within(ts_pc(ts_df(ts_c(fdeaths, mdeaths))), type <- "pc")
-)
-head(ts_ts(multi.id.df))
+# multiple ids
+a <- ts_df(ts_c(fdeaths, mdeaths))
+a$type <- "level"
+b <- ts_pc(a)
+b$type <- "pc"
+multi.id.df <- rbind(a, b)
+
+ts_ts(multi.id.df)
 ts_plot(multi.id.df)
-
 }

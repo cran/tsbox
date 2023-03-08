@@ -2,6 +2,8 @@ register_class("zoo")
 
 # to ---------------------------------------------------------------------------
 
+#' Convert to Class
+#' @noRd
 ts_zoo_dts <- function(x) {
   stopifnot(requireNamespace("zoo"))
   zoo::as.zoo(ts_xts(x))
@@ -24,7 +26,9 @@ ts_dts.zoo <- function(x) {
 #' @name ts_ts
 #' @export
 ts_zoo <- function(x) {
-  stopifnot(ts_boxable(x))
-  if (relevant_class(x) == "zoo") return(x)
+  check_ts_boxable(x)
+  if (relevant_class(x) == "zoo") {
+    return(x)
+  }
   ts_zoo_dts(ts_dts(x))
 }
