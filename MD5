@@ -1,6 +1,6 @@
-39ae6a6e70a9a1238f5852e05b085541 *DESCRIPTION
-0fb00d5eeb3f9a8d7bead1ed02492d1c *NAMESPACE
-35987f202d4820ae3d78c2fb5a0ba40f *NEWS.md
+de2a4f390b7111d4d94608f8d24a16e3 *DESCRIPTION
+e8c05da097203ded2f7db1e406e7520c *NAMESPACE
+40b109a46bddd7f536ff91deec74040b *NEWS.md
 d4692f96912d3c2a1bd1966a50dcb948 *R/0_convert_data.R
 40d05ff0f16fe23830ef9b5b4252d95c *R/check.R
 880c006000f5fefd7869864326fa4370 *R/convert_exact.R
@@ -29,7 +29,7 @@ bc0a165767dca6cdc323aa16969b51a8 *R/to_from_tsibble.R
 47ee0f7d7adc152467b5258bee5a683f *R/to_from_tslist.R
 91ff415716ca9b7193193be8c472b55f *R/to_from_xts.R
 35adf95f41e55ed52da3186d6e06ae34 *R/to_from_zoo.R
-5b566d2a94672b8f291fbfd7fb820aee *R/to_from_zooreg.R
+88583c87255779d942b20538e7e7802d *R/to_from_zooreg.R
 f51a5ae2784a7c078155390b4cd3821b *R/ts_.R
 afaa19a755e8d5bc06975bc62c8c9eba *R/ts_apply.R
 bef848daa5af2ca032aa7c9fc252cb17 *R/ts_arithmetic.R
@@ -40,7 +40,7 @@ bef848daa5af2ca032aa7c9fc252cb17 *R/ts_arithmetic.R
 492011bde6367c6af3f8e3fcc171b5d4 *R/ts_examples.R
 ca58afc7d90ae5fa2c258b6dd8c3713a *R/ts_first_of_period.R
 33e7b834d44b3d13040b43bbb81828f1 *R/ts_frequency.R
-81d786034280d34181005ceaf54b2843 *R/ts_ggplot.R
+a0cc11f4de76ae38e5329091989279f4 *R/ts_ggplot.R
 0c0abe22574fe987283c5d065f783380 *R/ts_index.R
 89fbed7322cefe9190d4c510c73f5a31 *R/ts_lag.R
 985a028586da6c1ab7722d82b3d1f5fb *R/ts_long_wide.R
@@ -56,10 +56,10 @@ d4fdc36c39ff91379d02a6428f016b7a *R/ts_summary.R
 6179c29121bab8b73708284fd55351b2 *R/tsbox-defunct.R
 74e9f8711bf88fdbb55be341038c4245 *R/tsbox-package.R
 b80c477e302afd19d2284e60f0476928 *R/utils.R
-5dc8f1a37d70e394f8f9d905a57e747d *README.md
+76e3ec88d6aaa23cf56356b267129f7f *README.md
 240867d30c7b13315ed1c30ff6c7880b *build/vignette.rds
 a21447c41b92ddc8a560ef95858028f4 *inst/CITATION
-795cb317c7dc6ac249856b5a4d79e723 *inst/WORDLIST
+b9094542b40930fc72cff3f6b18efd8c *inst/WORDLIST
 0bb176bec47ebf36d28a4d37a4012858 *inst/doc/convert.Rmd
 d75f78e3a21216d4f2e1b6cafafd1b2f *inst/doc/convert.html
 c40ca1c685f53b9a30b7eddfbac9c586 *inst/doc/ts-functions.Rmd
@@ -108,7 +108,7 @@ a47641d030ba39bfce841612d3f5c23c *tests/testthat/test-defects.R
 497ae8426bc6275e6791815f5933a71c *tests/testthat/test-high_freq.R
 56076dadfa33f757ce3d4eda75d981a7 *tests/testthat/test-irregular.R
 f48ab6fbf46583bcf4dda093537912c1 *tests/testthat/test-issues.R
-ef5773b87b16c0dbca357dad67375a46 *tests/testthat/test-missing.R
+2909e08944fd09d90a916848e0944c79 *tests/testthat/test-missing.R
 d7610a34be611fc0d5cdecb23f1b85d4 *tests/testthat/test-non_heuristic.R
 68a4d82657f7a0748710b50255a92c53 *tests/testthat/test-nonstandard_cnames.R
 7a4f5b1fdac51797b88badbab7a90945 *tests/testthat/test-nyc_flights.R
