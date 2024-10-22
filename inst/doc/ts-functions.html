@@ -49,7 +49,7 @@ overflow: visible;
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -349,18 +349,18 @@ time series functions. It can be used to wrap any function that works
 with time series. The default is set to R base <code>&quot;ts&quot;</code> class,
 so wrapping functions for <code>&quot;ts&quot;</code> time series (or vectors or
 matrices) is as simple as:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>ts_rowsums <span class="ot">&lt;-</span> <span class="fu">ts_</span>(rowSums)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ts_rowsums</span>(<span class="fu">ts_c</span>(mdeaths, fdeaths))</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>ts_rowsums <span class="ot">&lt;-</span> <span class="fu">ts_</span>(rowSums)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">ts_rowsums</span>(<span class="fu">ts_c</span>(mdeaths, fdeaths))</span></code></pre></div>
 <p>Note that <code>ts_</code> returns a function, which can be with or
 without a name. Let’ have a closer look at how <code>ts_rowsums</code>
 looks like:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ts_rowsums</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; function (x, ...)</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     stopifnot(ts_boxable(x))</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     z &lt;- rowSums(ts_ts(x), ...)</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     copy_class(z, x)</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>ts_rowsums</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt; function (x, ...)</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; {</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt;     stopifnot(ts_boxable(x))</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt;     z &lt;- rowSums(ts_ts(x), ...)</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt;     copy_class(z, x)</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; }</span></span></code></pre></div>
 <p>This is how most ts-functions work. They use a specific converter
 function (here: <code>ts_ts</code>) to convert a ts-boxable object to
 the desired class. They then perform the main operation on the object
@@ -368,23 +368,23 @@ the desired class. They then perform the main operation on the object
 the original class, using <code>copy_class</code>.</p>
 <p>The resulting function has a <code>...</code> argument. You can use
 it to pass arguments to the underlying functions. E.g.,</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ts_rowsums</span>(<span class="fu">ts_c</span>(mdeaths, fdeaths), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">ts_rowsums</span>(<span class="fu">ts_c</span>(mdeaths, fdeaths), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 <div id="functions-from-external-packages" class="section level2">
 <h2>Functions from external packages</h2>
 <p>Here is a slightly more complex example, which uses a post processing
 function:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ts_prcomp <span class="ot">&lt;-</span> <span class="fu">ts_</span>(<span class="cf">function</span>(x) <span class="fu">predict</span>(<span class="fu">prcomp</span>(x, <span class="at">scale =</span> <span class="cn">TRUE</span>)))</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ts_prcomp</span>(<span class="fu">ts_c</span>(mdeaths, fdeaths))</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>ts_prcomp <span class="ot">&lt;-</span> <span class="fu">ts_</span>(<span class="cf">function</span>(x) <span class="fu">predict</span>(<span class="fu">prcomp</span>(x, <span class="at">scale =</span> <span class="cn">TRUE</span>)))</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">ts_prcomp</span>(<span class="fu">ts_c</span>(mdeaths, fdeaths))</span></code></pre></div>
 <p>It is easy to make functions from external packages ts-boxable, by
 wrapping them into <code>ts_</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ts_dygraphs <span class="ot">&lt;-</span> <span class="fu">ts_</span>(dygraphs<span class="sc">::</span>dygraph, <span class="at">class =</span> <span class="st">&quot;xts&quot;</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ts_forecast <span class="ot">&lt;-</span> <span class="fu">ts_</span>(<span class="cf">function</span>(x, ...) forecast<span class="sc">::</span><span class="fu">forecast</span>(x, ...)<span class="sc">$</span>mean, <span class="at">vectorize =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>ts_seas <span class="ot">&lt;-</span> <span class="fu">ts_</span>(<span class="cf">function</span>(x, ...) seasonal<span class="sc">::</span><span class="fu">final</span>(seasonal<span class="sc">::</span><span class="fu">seas</span>(x, ...)), <span class="at">vectorize =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ts_dygraphs</span>(<span class="fu">ts_c</span>(mdeaths, EuStockMarkets))</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ts_forecast</span>(<span class="fu">ts_c</span>(mdeaths, fdeaths))</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ts_seas</span>(<span class="fu">ts_c</span>(mdeaths, fdeaths))</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>ts_dygraphs <span class="ot">&lt;-</span> <span class="fu">ts_</span>(dygraphs<span class="sc">::</span>dygraph, <span class="at">class =</span> <span class="st">&quot;xts&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>ts_forecast <span class="ot">&lt;-</span> <span class="fu">ts_</span>(<span class="cf">function</span>(x, ...) forecast<span class="sc">::</span><span class="fu">forecast</span>(x, ...)<span class="sc">$</span>mean, <span class="at">vectorize =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>ts_seas <span class="ot">&lt;-</span> <span class="fu">ts_</span>(<span class="cf">function</span>(x, ...) seasonal<span class="sc">::</span><span class="fu">final</span>(seasonal<span class="sc">::</span><span class="fu">seas</span>(x, ...)), <span class="at">vectorize =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">ts_dygraphs</span>(<span class="fu">ts_c</span>(mdeaths, EuStockMarkets))</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="fu">ts_forecast</span>(<span class="fu">ts_c</span>(mdeaths, fdeaths))</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="fu">ts_seas</span>(<span class="fu">ts_c</span>(mdeaths, fdeaths))</span></code></pre></div>
 <p>If you are explicit about the namespace (e.g.,
 <code>dygraphs::dygraph</code>), <code>ts_</code> recognized the package
 in use and delivers a meaningful message if the package is not
@@ -393,18 +393,18 @@ installed.</p>
 stuff, ‘vectorizes’ the function so that it can be used with multiple
 time series.</p>
 <p>Let’ have another look at <code>ts_forecast</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ts_forecast</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; function (x, ...)</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     load_suggested(&quot;forecast&quot;)</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ff &lt;- function(x, ...) {</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         stopifnot(ts_boxable(x))</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         z &lt;- (function(x, ...) forecast::forecast(ts_na_omit(x),</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             ...)$mean)(ts_ts(x), ...)</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         copy_class(z, x)</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ts_apply(x, ff, ...)</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>ts_forecast</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; function (x, ...)</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; {</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt;     load_suggested(&quot;forecast&quot;)</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt;     ff &lt;- function(x, ...) {</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt;         stopifnot(ts_boxable(x))</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt;         z &lt;- (function(x, ...) forecast::forecast(ts_na_omit(x),</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt;             ...)$mean)(ts_ts(x), ...)</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt;         copy_class(z, x)</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt;     }</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt;     ts_apply(x, ff, ...)</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; }</span></span></code></pre></div>
 <p>There three differences to the <code>ts_rowsum</code> example: First,
 the function requires the forecast package. If it is not installed,
 <code>load_suggested</code> will ask the user to do so. Second, the

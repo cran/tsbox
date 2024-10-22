@@ -67,10 +67,13 @@ ts_ggplot <- function(..., title, subtitle, ylab = "") {
 
   n <- NCOL(df)
   stopifnot(n > 1L)
+  stime <- as.name(cname$time)
+  svalue <- as.name(cname$value)
+
   if (n == 2L) {
     p <- ggplot2::ggplot(
       df,
-      ggplot2::aes(x = !! cname$time, y = !! cname$value)
+      ggplot2::aes(x = !! stime, y = !! svalue)
     )
   } else if (n > 2) {
 
@@ -85,9 +88,11 @@ ts_ggplot <- function(..., title, subtitle, ylab = "") {
         " time series supplied. Maximum is 29."
       )
     }
+
+    sid <- as.name(cname$id)
     p <- ggplot2::ggplot(
       df,
-      ggplot2::aes(x = !! cname$time, y = !! cname$value, color = cname$id)
+      ggplot2::aes(x = !! stime, y = !! svalue, color = !! sid)
     )
   }
   p <- p + ggplot2::geom_line()
@@ -171,9 +176,8 @@ colors_tsbox <- function() {
 scale_color_tsbox <- function(...) {
   stopifnot(requireNamespace("ggplot2"))
   ggplot2::discrete_scale(
-    "colour",
-    "ds",
-    scales::manual_pal(colors_tsbox()),
+    aesthetics = "colour",
+    palette = scales::manual_pal(colors_tsbox()),
     ...
   )
 }
@@ -183,9 +187,8 @@ scale_color_tsbox <- function(...) {
 scale_fill_tsbox <- function(...) {
   stopifnot(requireNamespace("ggplot2"))
   ggplot2::discrete_scale(
-    "fill",
-    "ds",
-    scales::manual_pal(colors_tsbox()),
+    aesthetics = "fill",
+    palette = scales::manual_pal(colors_tsbox()),
     ...
   )
 }

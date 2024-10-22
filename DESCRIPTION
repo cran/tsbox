@@ -1,7 +1,7 @@
 Package: tsbox
 Type: Package
 Title: Class-Agnostic Time Series
-Version: 0.4.1
+Version: 0.4.2
 Authors@R: c(
     person("Christoph", "Sax", email = "christoph.sax@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-7192-7044")),
     person("Cathy", "Chamberlin", role = c("rev")),
@@ -20,17 +20,17 @@ Encoding: UTF-8
 URL: https://docs.ropensci.org/tsbox/,
         https://github.com/ropensci/tsbox
 BugReports: https://github.com/ropensci/tsbox/issues
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 VignetteBuilder: knitr
 Depends: R (>= 2.10)
 Config/testthat/parallel: true
 Config/testthat/edition: 3
 Language: en-US
 NeedsCompilation: no
-Packaged: 2023-05-06 18:26:49 UTC; christophsax
+Packaged: 2024-10-22 17:22:37 UTC; christophsax
 Author: Christoph Sax [aut, cre] (<https://orcid.org/0000-0002-7192-7044>),
   Cathy Chamberlin [rev],
   Nunes Matt [rev]
 Maintainer: Christoph Sax <christoph.sax@gmail.com>
 Repository: CRAN
-Date/Publication: 2023-05-08 09:20:02 UTC
+Date/Publication: 2024-10-22 18:00:02 UTC
